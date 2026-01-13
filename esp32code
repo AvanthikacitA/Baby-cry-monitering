@@ -1,0 +1,14 @@
+import serial
+
+ser = serial.Serial('COM3', 9600, timeout=1)
+
+def esp32_temperature_loop():
+    global latest_status
+    while True:
+        try:
+            if ser.in_waiting:
+                temp = ser.readline().decode().strip()
+                latest_status["temperature"] = f"{float(temp):.1f} C"
+        except:
+            pass
+        time.sleep(2)
